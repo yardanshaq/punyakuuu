@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="title">rumah.net</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container-login">
+        <div class="logo">
+            <img src="assets/shield.svg" alt="">
+        </div>
+        <div class="title">rumah.net</div>
+
+        <!-- Dropdown Role Selection -->
+        <div class="role-selection">
+            <label for="role">Pilih Jenis Login:</label>
+            <select id="role" onchange="toggleFields()">
+                <option value="tamu">Tamu</option>
+                <option value="member">Member</option>
+                <option value="voucher">Voucher</option>
+            </select>
+        </div>
+
+        <form class="custom-fields" name="login" autocomplete="off" action="$(link-login-only)" method="post">
+            <input type="hidden" name="dst" value="$(link-orig)" />
+            <input type="hidden" name="popup" value="true" />
+            
+            <div class="username-field">
+                <input type="text" name="username" id="username" class="username-input" placeholder="Masukkan Username" required />
+            </div>
+            
+            <div class="password-field" id="password-container" style="display: none;">
+                <input type="password" name="password" id="password" class="password-input" placeholder="Masukkan Password" />
+            </div>
+            
+            <button class="btn-submit" type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleFields() {
+            var role = document.getElementById("role").value;
+            var passwordContainer = document.getElementById("password-container");
+            var usernameInput = document.getElementById("username");
+            
+            if (role === "tamu" || role === "voucher") {
+                passwordContainer.style.display = "none";
+                usernameInput.placeholder = role === "tamu" ? "Masukkan Nama Tamu" : "Masukkan Kode Voucher";
+            } else {
+                passwordContainer.style.display = "block";
+                usernameInput.placeholder = "Masukkan Username";
+            }
+        }
+    </script>
+</body>
+
+</html>
