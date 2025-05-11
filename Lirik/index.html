@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lyrics Display</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: 'Segoe UI Emoji', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+    #lyrics {
+      text-align: center;
+      font-size: 2em;
+      white-space: pre-line;
+    }
+    .char {
+      opacity: 0;
+      display: inline-block;
+      transition: color 0.5s ease, opacity 0.5s ease;
+    }
+  </style>
+</head>
+<body>
+  <div id="lyrics"></div>
+
+  <script>
+    const lyrics = [
+      { text: "Right now 🌸", delay: 0.3, speed: 110, color: [255, 105, 180] },
+      { text: "I wish you were here with me 💎", delay: 2.2, speed: 70, color: [0, 255, 255] },
+      { text: "Cause right now 💕", delay: 7.5, speed: 90, color: [255, 69, 0] },
+      { text: "Everything is new to me 🎄", delay: 10.0, speed: 90, color: [0, 128, 0] },
+      { text: "You know I can't fight the feeling 🌈", delay: 16.2, speed: 100, color: [255, 182, 193] },
+      { text: "And every night I feel it 💛", delay: 20.5, speed: 90, color: [255, 255, 0] },
+      { text: "Right now 🎈", delay: 24.0, speed: 110, color: [231, 76, 60] },
+      { text: "I wish you were here with me 💡", delay: 26.0, speed: 70, color: [255, 191, 0] }
+    ];
+
+    function rgbToCss(r, g, b) {
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    async function animateLine(line, speed, color) {
+      const container = document.getElementById('lyrics');
+      container.innerHTML = ''; // Clear previous
+
+      for (let i = 0; i < line.length; i++) {
+        const span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = line[i];
+        container.appendChild(span);
+      }
+
+      const spans = container.querySelectorAll('.char');
+
+      for (let i = 0; i < spans.length; i++) {
+        const span = spans[i];
+        setTimeout(() => {
+          span.style.color = rgbToCss(...color);
+          span.style.opacity = 1;
+        }, i * speed);
+      }
+
+      // Tunggu selesai tampil semua
+      await new Promise(r => setTimeout(r, spans.length * speed + 1000));
+    }
+
+    async function playLyrics() {
+      for (const line of lyrics) {
+        await new Promise(r => setTimeout(r, line.delay * 1000));
+        await animateLine(line.text, line.speed, line.color);
+      }
+
+      // Tutup otomatis (opsional):
+      // window.close();
+    }
+
+    playLyrics();
+  </script>
+</body>
+</html>
